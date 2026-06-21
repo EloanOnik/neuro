@@ -1,0 +1,27 @@
+import asyncio
+
+class Actor():
+    def __init__(self, name):
+        self.name = name
+        self.inbox = asyncio.Queue()
+        self._running = False
+
+    async def start(self):
+        self._running = True
+        self._task = asyncio.create_task(self._run())
+        return self._task
+
+    async def stop(self):
+        self._running = False
+        self.inbox = await self.inbox.put(None)
+
+    async def _run(self):
+        while self._running:
+            msg = await self.inbox.get()
+            if msg is None:
+                break
+            else:
+                await self.receive(msg)
+
+    async def receive(self, message):
+        pass
