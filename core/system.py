@@ -36,3 +36,13 @@ class ActorSystem:
         """
         for actor in self.actors.values():
             await actor.stop()
+
+
+    async def tell(self, actor_name, message):
+        if actor_name not in self.actors:
+            raise ValueError(f"Актор {actor_name} не зарегистрирован")
+        actor = self.actors[actor_name]
+        await actor.inbox.put(message)
+
+
+
