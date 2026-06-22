@@ -22,7 +22,11 @@ class Actor():
             if isinstance(msg, ShutdownCommand):
                 break
             else:
-                await self.receive(msg)
+                try:
+                    await self.receive(msg)
+                except Exception:
+                    print(f"Актор {self.name} упал: {e}")
+                    raise
 
     async def receive(self, message):
         pass
