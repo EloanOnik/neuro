@@ -1,0 +1,38 @@
+import asyncio
+from typing import Optional, Any
+
+class ActorSystem:
+    def __init__(self) -> None:
+        """
+        Инициализация ядра системы акторов.
+        """
+        # РЕЕСТР АКТОРОВ
+        self.actors: dict[str, Any] = {}
+
+        # ФОНОВЫЕ ЗАДАЧИ
+        self.tasks: dict[str, asyncio.Task[Any]] = {}
+
+        # ЗАЛ ОЖИДАНИЯ ОТВЕТОВ (RPC-паттерн Ask)
+        self.pending_asks: dict[str, asyncio.Future[Any]] = {}
+
+    def register(self, actor):
+        # станет местом, где проверяется: нет ли уже актора с таким именем, доступна ли нужная нода для размещения 
+        self.actors[actor.name] = actor
+
+    async def start_all(self):
+        """
+        Запускает фоновые задачи для всех зарегистрированных акторов 
+        и возвращает словарь этих задач.
+        """
+        for actor in self.actors.values():
+            task = await actor.start()
+            self.tasks[actor.name] = task
+        return self.tasks
+    
+    async def stop_all(self):
+        """
+        Останавливает фоновые задачи для всех зарегистрированных акторов 
+        и возвращает словарь этих задач.
+        """
+        for actor in self.actors.values():
+            await actor.stop()

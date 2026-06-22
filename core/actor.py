@@ -13,7 +13,7 @@ class Actor():
 
     async def stop(self):
         self._running = False
-        self.inbox = await self.inbox.put(None)
+        await self.inbox.put(None)
 
     async def _run(self):
         while self._running:
