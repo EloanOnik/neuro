@@ -1,5 +1,6 @@
 import asyncio
 from typing import Optional, Any
+from uuid import uuid4
 
 class ActorSystem:
     def __init__(self) -> None:
@@ -45,4 +46,6 @@ class ActorSystem:
         await actor.inbox.put(message)
 
 
-
+    async def ask(self, actor_name: str, message, timeout: float = 5.0):
+        correlation_id = str(uuid4())
+        loop = asyncio.get_event_loop()
