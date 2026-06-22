@@ -49,3 +49,16 @@ class ActorSystem:
     async def ask(self, actor_name: str, message, timeout: float = 5.0):
         correlation_id = str(uuid4())
         loop = asyncio.get_event_loop()
+        future = loop.create_future()
+        message.correlation_id = correlation_id
+        self.pending_asks[correlation_id] = future
+        await self.tell(actor_name, message)
+        result = await asyncio.wait_for(future, timeout=timeout)
+        self.pending_asks.pop(correlation_id, None)
+        return result
+
+
+    def resolve(self, correlation_id: str, response):
+        future = self.pending_asks.get(correlation_id)
+        if future is not None:
+            future.set_result(response)
