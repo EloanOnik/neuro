@@ -1,4 +1,5 @@
 import asyncio
+from messages import ShutdownCommand
 
 class Actor():
     def __init__(self, name):
@@ -13,7 +14,7 @@ class Actor():
 
     async def stop(self):
         self._running = False
-        await self.inbox.put(None)
+        await self.inbox.put(ShutdownCommand)
 
     async def _run(self):
         while self._running:
