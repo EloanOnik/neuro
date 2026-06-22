@@ -1,5 +1,5 @@
 import asyncio
-from messages import ShutdownCommand
+from core.messages import ShutdownCommand
 
 class Actor():
     def __init__(self, name):
