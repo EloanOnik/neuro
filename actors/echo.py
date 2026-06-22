@@ -5,4 +5,6 @@ class EchoActor(Actor):
         super().__init__(name)
         self.system = system
     async def receive(self, message):
+        if message in message.text and message.text == "упади":
+            raise RuntimeError("Тестовое падение")
         print(f"{self.name} получил: {message}")
