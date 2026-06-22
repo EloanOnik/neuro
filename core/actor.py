@@ -24,7 +24,7 @@ class Actor():
             else:
                 try:
                     await self.receive(msg)
-                except Exception:
+                except Exception as e:
                     print(f"Актор {self.name} упал: {e}")
                     raise
 
