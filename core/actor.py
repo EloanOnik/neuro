@@ -19,7 +19,7 @@ class Actor():
     async def _run(self):
         while self._running:
             msg = await self.inbox.get()
-            if msg is None:
+            if isinstance(msg, ShutdownCommand):
                 break
             else:
                 await self.receive(msg)
