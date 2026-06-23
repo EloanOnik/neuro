@@ -6,7 +6,7 @@ from typing import Optional
 class Message(BaseModel):
     message_id: str = Field(default_factory=lambda: str(uuid4()))
     correlation_id: Optional[str] = None
-    repty_to: Optional[str] = None # если актор не ждет ответа, но получатель хочет ответить
+    reply_to: Optional[str] = None # если актор не ждет ответа, но получатель хочет ответить
 
 
 class UserUtterance(Message):
