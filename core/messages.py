@@ -17,5 +17,5 @@ class UserUtterance(Message):
 # «актор, выйди из цикла, закончи работу». 
 # Оно обрабатывается прямо в _run() базового класса 
 # и не доходит до receive().
-class  ShutdownCommand(Message):
+class ShutdownCommand(Message):
     pass
