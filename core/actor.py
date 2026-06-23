@@ -14,7 +14,7 @@ class Actor():
 
     async def stop(self):
         self._running = False
-        await self.inbox.put(ShutdownCommand)
+        await self.inbox.put(ShutdownCommand())
 
     async def _run(self):
         while self._running:
