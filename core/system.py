@@ -52,10 +52,12 @@ class ActorSystem:
         future = loop.create_future()
         message.correlation_id = correlation_id
         self.pending_asks[correlation_id] = future
-        await self.tell(actor_name, message)
-        result = await asyncio.wait_for(future, timeout=timeout)
-        self.pending_asks.pop(correlation_id, None)
-        return result
+        try:
+            await self.tell(actor_name, message)
+            result = await asyncio.wait_for(future, timeout=timeout)
+            return result
+        finally:
+            self.pending_asks.pop(correlation_id, None)
 
 
     def resolve(self, correlation_id: str, response):
