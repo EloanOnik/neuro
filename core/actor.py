@@ -7,11 +7,13 @@ class Actor():
         self.inbox = asyncio.Queue()
         self._running = False
 
+    # запустить очередь сообщений 
     async def start(self):
         self._running = True
         self._task = asyncio.create_task(self._run())
         return self._task
 
+    # остановить очередь сообщений 
     async def stop(self):
         self._running = False
         await self.inbox.put(ShutdownCommand())

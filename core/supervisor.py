@@ -12,7 +12,7 @@ class Supervisor():
                 return_when=asyncio.FIRST_EXCEPTION
                 )
             
-            inverted_dict = {v: k for k, v in tasks.items()}
+            inverted_dict = {v: k for k, v in tasks.items()} # меняем ключи и значения местами
             for task in done:
                 task_name = inverted_dict[task]
 

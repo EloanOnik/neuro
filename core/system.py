@@ -39,6 +39,7 @@ class ActorSystem:
             await actor.stop()
 
 
+    # отправить сообщение БЕЗ ожидания ответа 
     async def tell(self, actor_name, message):
         if actor_name not in self.actors:
             raise ValueError(f"Актор {actor_name} не зарегистрирован")
@@ -46,6 +47,7 @@ class ActorSystem:
         await actor.inbox.put(message)
 
 
+    # отправить сообщение с ожиданием ответа
     async def ask(self, actor_name: str, message, timeout: float = 5.0):
         correlation_id = str(uuid4())
         loop = asyncio.get_event_loop()

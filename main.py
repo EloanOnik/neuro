@@ -6,9 +6,12 @@ from core.messages import UserUtterance
 
 async def main():
     system = ActorSystem()
+    print(f"system {system}")
     echo = EchoActor(name="echo", system=system)
+    print(f"echo {echo}")
     system.register(echo)
     tasks = await system.start_all()
+    print(f"tasks {tasks}")
 
     factories = {
         "echo": lambda: EchoActor(name="echo", system=system)
